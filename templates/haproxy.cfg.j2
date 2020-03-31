@@ -46,11 +46,17 @@ frontend {{ haproxy_frontend_name }}
 backend {{ haproxy_backend_name }}
     mode {{ haproxy_backend_mode }}
     balance {{ haproxy_backend_balance_method }}
-    option forwardfor
 {% if haproxy_backend_httpchk != '' %}
     option httpchk {{ haproxy_backend_httpchk }}
 {% endif %}
+{% if haproxy_backend_mode != 'tcp' %}
+    option forwardfor
     cookie SERVERID insert indirect
 {% for backend in haproxy_backend_servers %}
     server {{ backend.name }} {{ backend.address }} cookie {{ backend.name }} check
 {% endfor %}
+{% else %}
+{% for backend in haproxy_backend_servers %}
+    server {{ backend.name }} {{ backend.address }}
+{% endfor %}
+{% endif %}
