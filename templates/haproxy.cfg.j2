@@ -17,8 +17,11 @@ global
 defaults
   log global
   mode  http
-  option  httplog
-  option  dontlognull
+{% if haproxy_default_options is defined %}
+{% for option in haproxy_default_options %}
+  option {{ option }}
+{% endfor %}
+{% endif %}
 {% if haproxy_version == '1.4' %}
         contimeout 5000
         clitimeout 50000
