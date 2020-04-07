@@ -57,6 +57,6 @@ backend {{ haproxy_backend_name }}
 {% endfor %}
 {% else %}
 {% for backend in haproxy_backend_servers %}
-    server {{ backend.name }} {{ backend.address }}
+    server {{ backend.name }} {{ backend.address }} check
 {% endfor %}
 {% endif %}
