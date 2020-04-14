@@ -47,6 +47,11 @@ frontend {{ haproxy_frontend_name }}
     default_backend {{ haproxy_backend_name }}
 
 backend {{ haproxy_backend_name }}
+{% if haproxy_backend_directives is defined %}
+{% for directive in haproxy_backend_directives %}
+    {{ directive }}
+{% endfor %}
+{% endif %}
     mode {{ haproxy_backend_mode }}
     balance {{ haproxy_backend_balance_method }}
 {% if haproxy_backend_mode != 'tcp' %}
@@ -60,6 +65,6 @@ backend {{ haproxy_backend_name }}
 {% endfor %}
 {% else %}
 {% for backend in haproxy_backend_servers %}
-    server {{ backend.name }} {{ backend.address }} check
+    server {{ backend.name }} {{ backend.address }} {{ haproxy_backend_server_defaults | default('check') }}
 {% endfor %}
 {% endif %}
