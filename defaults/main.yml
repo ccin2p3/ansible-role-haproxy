@@ -14,6 +14,7 @@ haproxy_frontend_name: 'hafrontend'
 haproxy_frontend_bind_address: '*'
 haproxy_frontend_port: 80
 haproxy_frontend_mode: 'http'
+haproxy_frontend_listen_v4v6: false
 
 # Backend settings.
 haproxy_backend_name: 'habackend'

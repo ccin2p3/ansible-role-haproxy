@@ -42,7 +42,7 @@ defaults
 {% endif %}
 
 frontend {{ haproxy_frontend_name }}
-    bind {{ haproxy_frontend_bind_address }}:{{ haproxy_frontend_port }}
+    bind {{ haproxy_frontend_bind_address }}:{{ haproxy_frontend_port }}{{ ' v4v6' if haproxy_frontend_listen_v4v6 else '' }}
     mode {{ haproxy_frontend_mode }}
     default_backend {{ haproxy_backend_name }}
 
