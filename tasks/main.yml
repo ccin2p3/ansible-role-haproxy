@@ -11,14 +11,14 @@
   when: ansible_os_family == 'Debian'
 
 - name: Get HAProxy version.
-  command: haproxy -v
+  command: "haproxy -v | awk -F'[. ]' '/HA.?Proxy/{print $3\".\"$4}'"
   register: haproxy_version_result
   changed_when: false
   check_mode: false
 
 - name: Set HAProxy version.
   set_fact:
-    haproxy_version: "{{ '1.5' if '1.5.' in haproxy_version_result.stdout else '1.4' }}"
+    haproxy_version: "{{haproxy_version_result.stdout}}"
 
 - name: Copy HAProxy configuration in place.
   template:
